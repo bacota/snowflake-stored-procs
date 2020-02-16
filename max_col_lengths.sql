@@ -20,14 +20,14 @@ while (rs.next()) {
       var datatype = rs.getColumnValue(2)
       if (datatype == "TEXT") {
          columns.push(cname)
-         select_list.push("MAX(LENGTH("+cname+"))")
+         select_list.push(`MAX(LENGTH(${cname}))`)
       } if (datatype == "NUMBER") {
          columns.push(cname)
-         select_list.push("MAX("+cname+")")
+         select_list.push(`MAX(${cname})`)
       }
 }
 
-var query = "SELECT " + select_list.join(",") + " FROM " + SCHEMA_NAME + "." + TABLE_NAME
+var query = `SELECT ${select_list.join(",")}  FROM ${SCHEMA_NAME}.${TABLE_NAME}`
 var max_stmt = snowflake.createStatement({
          sqlText: query,
          binds: []

@@ -33,12 +33,10 @@ while (rs.next()) {
 
 var pattern = ''
 if (PATTERN) {
-   pattern = " pattern='"+PATTERN+"' "
+   pattern = `pattern='${PATTERN}'`
 }
 
-ext_sql = "CREATE OR REPLACE EXTERNAL TABLE " + EXT_TABLE_NAME + "(" +
-       select_list.join(",\n") +
-       "\n) with location="+LOCATION + pattern + " file_format=("+FILE_FORMAT+")"
+ext_sql = `CREATE OR REPLACE EXTERNAL TABLE ${EXT_TABLE_NAME} (${select_list.join(",\n")}) with location=${LOCATION} ${pattern} file_format=(${FILE_FORMAT})`
 
 var ext_stmt = snowflake.createStatement({
          sqlText: ext_sql,
@@ -51,7 +49,7 @@ return ext_sql
 $$;
 
 
-EXAMPLE:
+--EXAMPLE:
 call make_external_table(
      'CHANCEY', 'CHANCEY_MEDICAL_HEADERS', 'EXT_MEDICAL_HEADERS',
      '@export_stage/header_201911/',

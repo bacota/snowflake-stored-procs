@@ -18,10 +18,10 @@ var rs = stmt.execute()
 while (rs.next()) {
       var cname = rs.getColumnValue(1)
       columns.push(cname)
-      select_list.push("COUNT("+cname+")/COUNT(*)")
+      select_list.push(`COUNT("${cname}")/COUNT(*)`)
 }
 
-var query = "SELECT " + select_list.join(",") + " FROM " + SCHEMA_NAME + "." + TABLE_NAME
+var query = `SELECT ${select_list.join(",")} FROM ${SCHEMA_NAME}.${TABLE_NAME}`
 var max_stmt = snowflake.createStatement({
          sqlText: query,
          binds: [SCHEMA_NAME, TABLE_NAME]
