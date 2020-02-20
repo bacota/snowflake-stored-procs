@@ -11,6 +11,6 @@ Every stored procedure returns a single string (well, Varchar). That's all they 
 
 `external_tables` creates an external table pointing to data in a given s3 bucket in either parquet or csv format and outputs the `CREATE TABLE` command.  It assumes that the data in the external table is structured identically to that of some given table internal to snowflake.  This may be useful for the Data Services team because we typically export data from Snowflake to S3 for archival purposes and may need a convenient way to look at the archived data in the future.
 
-`list_stage` is more of a "proof of failure" than "proof of concept".  I wanted to list all files in an external stage to create a "Manifest" for our customers.  The only way I can find to get a list of files from within Snowflake is with the `LIST` query.  Unfortunately the stored procedure's query API does not accept `LIST` queries.  The accompanying stored procedure demonstrates the error.
+`list_stage` lists a the contents of an external stage.  To get this to work it was necessary to define the procedure with `execute as caller`.
 
 

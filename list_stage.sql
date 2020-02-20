@@ -2,8 +2,9 @@ use schema bruce;
 
 create or replace procedure list_stage(SCHEMA_NAME VARCHAR, STAGE_NAME VARCHAR)
 returns varchar
-language javascript as
-$$
+language javascript
+execute as caller
+as $$
 var sql = `list @${SCHEMA_NAME}.${STAGE_NAME}`
 var stmt = snowflake.createStatement({
     sqlText: sql,
