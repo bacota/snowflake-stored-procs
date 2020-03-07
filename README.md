@@ -13,6 +13,6 @@ Every stored procedure returns a single string (well, Varchar). That's all they 
 
 `list_stage` lists a the contents of an external stage.  To get this to work it was necessary to define the procedure with `execute as caller`.
 
-`fill_rates` and `row_counts are a couple of stored procedures for generating files of fill_rates and manifests (lists of files with row counts).
+`fill_rates` and `row_counts` are a couple of stored procedures for generating files of fill_rates and manifests (lists of files with row counts).
 
 
