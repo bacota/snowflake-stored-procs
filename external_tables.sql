@@ -6,9 +6,6 @@ returns varchar
 language javascript execute as caller as
 $$
 
-var prefix = "$"
-if (FILE_FORMAT.toUpperCase().includes("CSV")) prefix = "c"
-
 var select_list = []
 
 var sql = "select COLUMN_NAME, DATA_TYPE "+
@@ -25,8 +22,9 @@ var rs = stmt.execute()
 i=1
 while (rs.next()) {
       var cname = rs.getColumnValue(1)
-      var datatype = rs.getColumnValue(2)
-      var column = `${cname} ${datatype} as (value:${prefix}${i}::${datatype})`
+      var datatype = rs.getColumnValue(2)    
+      var ext_cname = (FILE_FORMAT.toUpperCase().includes("CSV")) ? `c${i}` : cname
+      var column = `${cname} ${datatype} as (value:${ext_cname}::${datatype})`
       select_list.push(column)
       i++
  }
