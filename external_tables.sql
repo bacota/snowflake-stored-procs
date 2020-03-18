@@ -3,7 +3,7 @@ use schema bruce;
 create or replace procedure make_external_table(SCHEMA_NAME VARCHAR, TABLE_NAME VARCHAR,
        EXT_TABLE_NAME VARCHAR, LOCATION VARCHAR, PATTERN VARCHAR, FILE_FORMAT VARCHAR)
 returns varchar
-language javascript as
+language javascript execute as caller as
 $$
 
 var prefix = "$"
@@ -50,9 +50,11 @@ $$;
 
 
 --EXAMPLE:
+/*
 call make_external_table(
      'CHANCEY', 'CHANCEY_MEDICAL_HEADERS', 'EXT_MEDICAL_HEADERS',
      '@export_stage/header_201911/',
      '.*parquet', 'type=parquet'
 );
+*/
 
