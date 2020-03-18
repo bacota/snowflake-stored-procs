@@ -28,25 +28,26 @@ $$
 
     sql = `CREATE  OR REPLACE TEMPORARY TABLE ${fill_rate_table} ` +
         `("aggregation_key" VARCHAR, "stat_name" VARCHAR,` +
-        columns.map(c => `"${c}" float`).join(",") + ")"
+        columns.map(c => `"${c}" real`).join(",") + ")"
     snowflake.createStatement({sqlText: sql, binds: []}).execute()
 
-    select_list = ["'all'", "'count_filled'"].concat( columns.map(c => `count("${c}")`) )
+    select_list = ["'All'", "'count_filled'"].concat( columns.map(c => `count("${c}")`) )
     sql = `INSERT INTO ${fill_rate_table} SELECT ${select_list.join(',')} FROM ${src_table}`
     snowflake.createStatement({sqlText: sql, binds: []}).execute()
     
-    select_list = ["'all'", "'count_total'"].concat( columns.map(c => 'count(*)') )
+    select_list = ["'All'", "'count_total'"].concat( columns.map(c => 'count(*)') )
     sql = `INSERT INTO ${fill_rate_table} SELECT ${select_list.join(',')} FROM ${src_table}`
     stmt = snowflake.createStatement({sqlText: sql, binds: []}).execute()
 
-    select_list = ["'all'", "'percent_filled'"].concat( columns.map(c => `count("${c}")/count(*)`) )
+    select_list = ["'All'", "'percent_filled'"].concat( columns.map(c => `count("${c}")/count(*)`) )
     sql = `INSERT INTO ${fill_rate_table} SELECT ${select_list.join(',')} FROM ${src_table}`
     snowflake.createStatement({sqlText: sql, binds: []}).execute()
 
     if (!EXPORT_DEST.startsWith("@")) {
        EXPORT_DEST = '@' + EXPORT_DEST
     }
-    sql = `COPY INTO ${EXPORT_DEST} FROM ${fill_rate_table} file_Format=(type=csv compression=None) ` +
+    sql = `COPY INTO ${EXPORT_DEST} FROM ${fill_rate_table} ` +
+        `file_Format=(type=csv compression=None field_delimiter='|') ` +
         `header=TRUE single=TRUE overwrite=TRUE`
     snowflake.createStatement({sqlText: sql, binds: []}).execute()
 $$;

@@ -19,7 +19,8 @@ $$
     if (!EXPORT_DEST.startsWith("@")) {
        EXPORT_DEST = '@' + EXPORT_DEST
     }
-    sql = `COPY INTO ${EXPORT_DEST} FROM ${rc_table} file_format=(type=csv compression=None) ` +
+    sql = `COPY INTO ${EXPORT_DEST} FROM ${rc_table} ` +
+        `file_Format=(type=csv compression=None field_delimiter='|') ` +    
         `header=TRUE single=TRUE overwrite=TRUE`
     snowflake.createStatement({sqlText: sql, binds: []}).execute()
 $$;
