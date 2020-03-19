@@ -29,7 +29,7 @@ while (rs.next()) {
            column_types[cname] = 'DOUBLE'
            select_list.push("1")
          } else {
-           column_types[cname] = 'NUMBER'
+           column_types[cname] = 'NUMERIC'
            select_list.push(`MAX(${cname})`)
          }
       } else if (datatype.startsWith('TIMESTAMP')) {
